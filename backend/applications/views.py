@@ -4,6 +4,7 @@ from rest_framework.response import Response
 
 from .models import SellerApplication
 from .serializers import SellerApplicationSerializer
+from users.permissions import IsAdminRole
 
 User = get_user_model()
 
@@ -23,13 +24,13 @@ class SubmitApplicationView(generics.CreateAPIView):
 
 
 class ListApplicationView(generics.ListAPIView):
-	permission_classes = [permissions.IsAdminUser]
+	permission_classes = [IsAdminRole]
 	serializer_class = SellerApplicationSerializer
 	queryset = SellerApplication.objects.select_related("user").order_by("-created_at")
 
 
 class ApproveApplicationView(generics.GenericAPIView):
-	permission_classes = [permissions.IsAdminUser]
+	permission_classes = [IsAdminRole]
 	serializer_class = SellerApplicationSerializer
 
 	def post(self, request, pk):
@@ -51,7 +52,7 @@ class ApproveApplicationView(generics.GenericAPIView):
 
 
 class DeclineApplicationView(generics.GenericAPIView):
-	permission_classes = [permissions.IsAdminUser]
+	permission_classes = [IsAdminRole]
 	serializer_class = SellerApplicationSerializer
 
 	def post(self, request, pk):

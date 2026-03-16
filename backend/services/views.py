@@ -2,6 +2,7 @@ from rest_framework import generics, permissions
 
 from .models import Service
 from .serializers import ServiceSerializer
+from users.permissions import IsSellerRole
 
 
 class ServiceListView(generics.ListAPIView):
@@ -15,7 +16,7 @@ class ServiceDetailView(generics.RetrieveAPIView):
 
 
 class SellerServiceManageView(generics.ListCreateAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [IsSellerRole]
 	serializer_class = ServiceSerializer
 
 	def get_queryset(self):
@@ -26,7 +27,7 @@ class SellerServiceManageView(generics.ListCreateAPIView):
 
 
 class SellerServiceDetailView(generics.RetrieveUpdateDestroyAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [IsSellerRole]
 	serializer_class = ServiceSerializer
 
 	def get_queryset(self):

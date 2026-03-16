@@ -3,6 +3,7 @@ from rest_framework import generics, permissions
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .serializers import MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer
+from .permissions import IsAdminRole
 
 User = get_user_model()
 
@@ -24,12 +25,12 @@ class UserProfileView(generics.RetrieveAPIView):
 
 
 class AdminUserListView(generics.ListAPIView):
-	permission_classes = [permissions.IsAdminUser]
+	permission_classes = [IsAdminRole]
 	serializer_class = UserSerializer
 	queryset = User.objects.all().order_by("id")
 
 
 class AdminUserDetailView(generics.RetrieveUpdateDestroyAPIView):
-	permission_classes = [permissions.IsAdminUser]
+	permission_classes = [IsAdminRole]
 	serializer_class = UserSerializer
 	queryset = User.objects.all().order_by("id")
